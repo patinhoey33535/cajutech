@@ -1,39 +1,13 @@
-// ══════════════ DATA ══════════════
-const VIDEOS=[
-  {id:1,cat:'Plantio',catColor:'#dcfce7',catTextColor:'#16a34a',title:'Como Plantar o Cajueiro do Zero',desc:'Aprenda o passo a passo completo do plantio do cajueiro: da escolha do local ao cuidado com as mudas nos primeiros meses.',videoId:'Vc_o1vG6ueY',dur:'4 min'},
-  {id:2,cat:'Pragas',catColor:'#fee2e2',catTextColor:'#dc2626',title:'Mosca-da-fruta: Identificação e Controle',desc:'A mosca-da-fruta é uma das pragas mais prejudiciais ao cajueiro. Aprenda a identificar e controlar com eficiência.',videoId:'TPQA3uCecvU',dur:'13 min'},
-  {id:3,cat:'Pragas',catColor:'#fee2e2',catTextColor:'#dc2626',title:'Pragas do Cajueiro: Guia Completo',desc:'Conheça todas as principais pragas que atacam o cajueiro no Nordeste brasileiro e as melhores estratégias de controle.',videoId:'hJpOhm_Wjn8',dur:'11 min'},
-  {id:4,cat:'Pragas',catColor:'#fee2e2',catTextColor:'#dc2626',title:'Manejo Integrado de Pragas (MIP)',desc:'O MIP é a abordagem mais moderna e sustentável para proteger seu cajueiral com menor uso de defensivos.',videoId:'u_ZS58PH6uo',dur:'9 min'},
-  {id:5,cat:'Colheita',catColor:'#fef3c7',catTextColor:'#d97706',title:'Colheita do Caju: Momento Certo e Técnicas',desc:'Saber o momento ideal de colher é fundamental para garantir a qualidade e reduzir perdas.',videoId:'c6YWjB1_cAM',dur:'8 min'},
-  {id:6,cat:'Processamento',catColor:'#fed7aa',catTextColor:'#ea580c',title:'Processamento da Castanha de Caju',desc:'Do campo à amêndoa de qualidade: aprenda todo o processo de beneficiamento da castanha.',videoId:'2N5maJrDMdc',dur:'1 min'},
-  {id:7,cat:'Irrigação',catColor:'#dbeafe',catTextColor:'#2563eb',title:'Irrigação do Cajueiro: Quando e Quanto',desc:'A irrigação suplementar pode aumentar a produtividade do cajueiro em até 40% em regiões semiáridas.',videoId:'dAO3bhovIuk',dur:'5 min'},
-  {id:8,cat:'Negócios',catColor:'#f3e8ff',catTextColor:'#7c3aed',title:'Como Vender Caju e Aumentar seu Lucro',desc:'Estratégias de comercialização, acesso a mercados e como agregar valor ao caju.',videoId:'eXLY8d538xE',dur:'6 min'},
-];
+const fetchWeather = require('./scripts/clima')
+const VIDEOS = require('./scripts/data')
+
+
+
+
+
 
 const COURSES=[...VIDEOS];
 
-// ══════════════ CLIMA REAL (Open-Meteo) ══════════════
-async function fetchWeather(){
-  const WX_CODES={0:'☀️ Céu limpo',1:'🌤️ Principalmente limpo',2:'⛅ Parcialmente nublado',3:'☁️ Nublado',45:'🌫️ Névoa',48:'🌫️ Névoa com gelo',51:'🌦️ Garoa leve',53:'🌦️ Garoa moderada',55:'🌧️ Garoa forte',61:'🌧️ Chuva leve',63:'🌧️ Chuva moderada',65:'🌧️ Chuva forte',71:'🌨️ Neve leve',80:'🌦️ Pancadas leves',81:'🌧️ Pancadas moderadas',82:'⛈️ Pancadas fortes',95:'⛈️ Trovoada',99:'⛈️ Trovoada com granizo'};
-  try{
-    const url='https://api.open-meteo.com/v1/forecast?latitude=-4.27&longitude=-41.78&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,precipitation&daily=precipitation_sum&timezone=America%2FFortaleza&forecast_days=1';
-    const r=await fetch(url);
-    const d=await r.json();
-    const c=d.current;
-    const temp=Math.round(c.temperature_2m);
-    const hum=c.relative_humidity_2m;
-    const wind=Math.round(c.wind_speed_10m);
-    const rain=c.precipitation??0;
-    const cond=WX_CODES[c.weather_code]??'🌡️ Clima variável';
-    document.getElementById('wx-temp').textContent=temp+'°C';
-    document.getElementById('wx-cond').textContent=cond;
-    document.getElementById('wx-hum').textContent='💧 '+hum+'% Umidade';
-    document.getElementById('wx-wind').textContent='💨 '+wind+' km/h';
-    document.getElementById('wx-rain').textContent='🌧️ '+rain.toFixed(1)+' mm chuva hoje';
-  }catch(e){
-    document.getElementById('wx-cond').textContent='⚠️ Clima indisponível';
-  }
-}
 fetchWeather();
 setInterval(fetchWeather,10*60*1000);
 
